@@ -1,13 +1,26 @@
 import type { LinksFunction } from '@remix-run/node'
-import { Link, Outlet } from '@remix-run/react'
+import { json } from '@remix-run/node'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 
+import { prisma } from '~/lib'
 import stylesUrl from '~/styles/jokes.css'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }]
 }
 
+export const loader = async () => {
+  const jokes = await prisma.joke.findMany({
+    take: 5,
+    select: { id: true, name: true }
+  })
+
+  return json({ jokeListItems: jokes })
+}
+
 const JokesRoute = () => {
+  const { jokeListItems } = useLoaderData<typeof loader>()
+
   return (
     <div className='jokes-layout'>
       <header className='jokes-header'>
@@ -26,9 +39,11 @@ const JokesRoute = () => {
             <Link to='.'>Get a random joke</Link>
             <p>Here are a few more jokes to check out:</p>
             <ul>
-              <li>
-                <Link to='some-joke-id'>Hippo</Link>
-              </li>
+              {jokeListItems.map(joke => (
+                <li key={joke.id}>
+                  <Link to={joke.id}>{joke.name}</Link>
+                </li>
+              ))}
             </ul>
             <Link to='new' className='button'>
               Add your own
