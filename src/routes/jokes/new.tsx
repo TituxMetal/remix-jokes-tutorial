@@ -14,7 +14,9 @@ const NewJokeRoute = () => {
           </label>
         </div>
         <div>
-          <button type='submit'>Add</button>
+          <button type='submit' className='button'>
+            Add
+          </button>
         </div>
       </form>
     </div>

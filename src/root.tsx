@@ -8,11 +8,33 @@ import {
   ScrollRestoration
 } from '@remix-run/react'
 
-import stylesheet from '~/tailwind.css'
+import globalLargeStylesUrl from '~/styles/global-large.css'
+import globalMediumStylesUrl from '~/styles/global-medium.css'
+import globalStylesUrl from '~/styles/global.css'
+import tailwind from '~/styles/tailwind.css'
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesheet }
-]
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: tailwind
+    },
+    {
+      rel: 'stylesheet',
+      href: globalStylesUrl
+    },
+    {
+      rel: 'stylesheet',
+      href: globalMediumStylesUrl,
+      media: 'print, (min-width: 640px)'
+    },
+    {
+      rel: 'stylesheet',
+      href: globalLargeStylesUrl,
+      media: 'screen and (min-width: 1024px)'
+    }
+  ]
+}
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -27,7 +49,7 @@ const App = () => {
         <Meta />
         <Links />
       </head>
-      <body className='min-h-screen bg-zinc-900 text-zinc-100'>
+      <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
