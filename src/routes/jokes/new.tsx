@@ -79,7 +79,7 @@ const NewJokeRoute = () => {
           <label>
             Content:{' '}
             <textarea
-              defaultValue={actionData?.fieldErrors?.content}
+              defaultValue={actionData?.fields?.content}
               name='content'
               aria-invalid={
                 Boolean(actionData?.fieldErrors?.content) || undefined
