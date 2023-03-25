@@ -2,7 +2,13 @@ import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Response } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, useCatch, useLoaderData, useParams } from '@remix-run/react'
+import {
+  Form,
+  Link,
+  useCatch,
+  useLoaderData,
+  useParams
+} from '@remix-run/react'
 
 import { prisma } from '~/lib'
 import { getUserId, requireUserId } from '~/utils'
@@ -66,11 +72,11 @@ const JokeRoute = () => {
       <p>{joke.content}</p>
       <Link to='.'>{joke.name} Permalink</Link>
       {isOwner && (
-        <form method='post'>
+        <Form method='post'>
           <button type='submit' className='button' name='intent' value='delete'>
             Delete
           </button>
-        </form>
+        </Form>
       )}
     </div>
   )

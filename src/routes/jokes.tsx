@@ -1,6 +1,6 @@
 import type { LinksFunction, LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import { Form, Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import { prisma } from '~/lib'
 import stylesUrl from '~/styles/jokes.css'
@@ -37,11 +37,11 @@ const JokesRoute = () => {
           {user ? (
             <div className='user-info'>
               <span>{`Hi ${user.username}`}</span>
-              <form action='/logout' method='post'>
+              <Form action='/logout' method='post'>
                 <button type='submit' className='button'>
                   Logout
                 </button>
-              </form>
+              </Form>
             </div>
           ) : (
             <Link to='/login' className='button'>

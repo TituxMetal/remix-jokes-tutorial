@@ -1,6 +1,6 @@
 import type { LoaderArgs } from '@remix-run/node'
 import { type ActionArgs, redirect, Response, json } from '@remix-run/node'
-import { Link, useActionData, useCatch } from '@remix-run/react'
+import { Form, Link, useActionData, useCatch } from '@remix-run/react'
 
 import { prisma } from '~/lib'
 import { badRequest, getUserId, requireUserId } from '~/utils'
@@ -69,7 +69,7 @@ const NewJokeRoute = () => {
   return (
     <div>
       <p>Add your own hilarious joke</p>
-      <form method='post'>
+      <Form method='post'>
         <div>
           <label>
             Name:{' '}
@@ -123,7 +123,7 @@ const NewJokeRoute = () => {
             Add
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }
