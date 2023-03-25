@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration
 } from '@remix-run/react'
+import type { ReactNode } from 'react'
 
 import globalLargeStylesUrl from '~/styles/global-large.css'
 import globalMediumStylesUrl from '~/styles/global-medium.css'
@@ -38,24 +39,50 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: "Remix: So great, it's funny!",
   viewport: 'width=device-width,initial-scale=1'
 })
 
-const App = () => {
+const Document = ({
+  children,
+  title = `Remix: So great, it's funny!`
+}: {
+  children: ReactNode
+  title?: string
+}) => {
   return (
     <html lang='en'>
       <head>
         <Meta />
+        <title>{title}</title>
         <Links />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
+        {children}
         <LiveReload />
       </body>
     </html>
   )
 }
+
+const App = () => {
+  return (
+    <Document>
+      <Outlet />
+      <ScrollRestoration />
+      <Scripts />
+    </Document>
+  )
+}
+
+export const ErrorBoundary = ({ error }: { error: Error }) => {
+  return (
+    <Document title='Uh-oh!'>
+      <div className='error-container'>
+        <h1>App Error</h1>
+        <pre>{error.message}</pre>
+      </div>
+    </Document>
+  )
+}
+
 export default App
