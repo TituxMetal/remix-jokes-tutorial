@@ -1,8 +1,9 @@
-import { type ActionArgs, redirect } from '@remix-run/node'
-import { useActionData } from '@remix-run/react'
+import type { LoaderArgs } from '@remix-run/node'
+import { type ActionArgs, redirect, Response, json } from '@remix-run/node'
+import { Link, useActionData, useCatch } from '@remix-run/react'
 
 import { prisma } from '~/lib'
-import { badRequest, requireUserId } from '~/utils'
+import { badRequest, getUserId, requireUserId } from '~/utils'
 
 const validateJokeContent = (content: string) => {
   if (content.length < 10) {
@@ -50,6 +51,16 @@ export const action = async ({ request }: ActionArgs) => {
   })
 
   return redirect(`/jokes/${joke.id}`)
+}
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await getUserId(request)
+
+  if (!userId) {
+    throw new Response('Unauthorized!', { status: 401 })
+  }
+
+  return json({})
 }
 
 const NewJokeRoute = () => {
@@ -115,6 +126,19 @@ const NewJokeRoute = () => {
       </form>
     </div>
   )
+}
+
+export const CatchBoundary = () => {
+  const caught = useCatch()
+
+  if (caught.status === 401) {
+    return (
+      <div className='error-container'>
+        <p>You must be logged in to create a joke.</p>
+        <Link to='/login'>Login</Link>
+      </div>
+    )
+  }
 }
 
 export const ErrorBoundary = () => {
