@@ -49,11 +49,12 @@ const resetUserDb = async () =>
 
 const seed = async () => {
   await Promise.all([resetJokesDb(), resetUserDb()])
+
   const kody = await db.user.create({
     data: {
       username: 'kody',
       // this is a hashed version of "twixrox"
-      hash: '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u'
+      hash: '$argon2id$v=19$m=65536,t=3,p=4$pKBqHTyT6X+RwTPtyMwlMA$Gpgr43OM1lSzdTv7zQnH+5yQWn6xOSM/KGYYwV0QcPs'
     }
   })
 
