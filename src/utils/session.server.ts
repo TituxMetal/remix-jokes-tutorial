@@ -44,6 +44,15 @@ const storage = createCookieSessionStorage({
   }
 })
 
+export const register = async ({ username, password }: LoginForm) => {
+  const passwordHash = await argon.hash(password)
+  const user = await prisma.user.create({
+    data: { username, hash: passwordHash }
+  })
+
+  return { id: user.id, username: user.username }
+}
+
 const getUserSession = async (request: Request) =>
   storage.getSession(request.headers.get('Cookie'))
 
