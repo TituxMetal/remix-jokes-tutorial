@@ -38,10 +38,23 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  viewport: 'width=device-width,initial-scale=1'
-})
+export const meta: MetaFunction = () => {
+  const description = `Learn Remix and laugh at the same time!`
+
+  return {
+    charset: 'utf-8',
+    description,
+    keywords: 'Remix,jokes',
+    'twitter:image':
+      'https://remix-jokes-tutorial-omega.vercel.app//social.png',
+    'twitter:card': 'summary_large_image',
+    'twitter:creator': '@lgdweb',
+    'twitter:site': 'https://remix-jokes-tutorial-omega.vercel.app',
+    'twitter:title': 'Remix Jokes',
+    'twitter:description': description,
+    viewport: 'width=device-width,initial-scale=1'
+  }
+}
 
 const Document = ({
   children,
