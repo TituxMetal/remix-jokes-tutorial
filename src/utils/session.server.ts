@@ -44,7 +44,7 @@ const storage = createCookieSessionStorage({
   }
 })
 
-const getUserSession = (request: Request) =>
+const getUserSession = async (request: Request) =>
   storage.getSession(request.headers.get('Cookie'))
 
 export const getUserId = async (request: Request) => {
@@ -74,8 +74,37 @@ export const requireUserId = async (
   return userId
 }
 
+export const logout = async (request: Request) => {
+  const session = await getUserSession(request)
+
+  return redirect('/login', {
+    headers: { 'Set-Cookie': await storage.destroySession(session) }
+  })
+}
+
+export const getUser = async (request: Request) => {
+  const userId = await getUserId(request)
+
+  if (typeof userId !== 'string') {
+    return null
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, username: true }
+    })
+
+    return user
+  } catch (error) {
+    throw logout(request)
+  }
+}
+
 export const createUserSession = async (userId: string, redirectTo: string) => {
   const session = await storage.getSession()
+
+  session.set('userId', userId)
 
   return redirect(redirectTo, {
     headers: { 'Set-Cookie': await storage.commitSession(session) }
