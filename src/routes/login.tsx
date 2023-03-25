@@ -3,7 +3,7 @@ import { Link, useActionData, useSearchParams } from '@remix-run/react'
 
 import { prisma } from '~/lib'
 import stylesUrl from '~/styles/login.css'
-import { badRequest } from '~/utils'
+import { badRequest, createUserSession, login } from '~/utils'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl }
@@ -63,14 +63,21 @@ export const action = async ({ request }: ActionArgs) => {
 
   switch (loginType) {
     case 'login': {
-      return badRequest({
-        fieldErrors: null,
-        fields,
-        formError: 'Not implemented'
-      })
+      const user = await login({ username, password })
+
+      if (!user) {
+        return badRequest({
+          fieldErrors: null,
+          fields,
+          formError: `Bad credentials`
+        })
+      }
+
+      return createUserSession(user.id, redirectTo)
     }
     case 'register': {
       const userExists = await prisma.user.findFirst({ where: { username } })
+      console.log('userExists', userExists)
 
       if (userExists) {
         return badRequest({
