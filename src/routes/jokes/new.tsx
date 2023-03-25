@@ -2,7 +2,7 @@ import { type ActionArgs, redirect } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 
 import { prisma } from '~/lib'
-import { badRequest } from '~/utils'
+import { badRequest, requireUserId } from '~/utils'
 
 const validateJokeContent = (content: string) => {
   if (content.length < 10) {
@@ -17,6 +17,7 @@ const validatJokeName = (name: string) => {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  const userId = await requireUserId(request)
   const form = await request.formData()
   const name = form.get('name')
   const content = form.get('content')
@@ -44,7 +45,9 @@ export const action = async ({ request }: ActionArgs) => {
     })
   }
 
-  const joke = await prisma.joke.create({ data: fields })
+  const joke = await prisma.joke.create({
+    data: { ...fields, jokesterId: userId }
+  })
 
   return redirect(`/jokes/${joke.id}`)
 }
