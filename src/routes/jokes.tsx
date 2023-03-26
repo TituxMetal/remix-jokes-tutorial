@@ -61,8 +61,8 @@ const JokesRoute = () => {
             <Link prefetch='intent' to='.'>
               Get a random joke
             </Link>
-            <p>Here are a few more jokes to check out:</p>
-            <ul>
+            <p className='py-2'>Here are a few more jokes to check out:</p>
+            <ul className='px-2'>
               {jokeListItems.map(joke => (
                 <li key={joke.id}>
                   <Link prefetch='intent' to={joke.id}>
@@ -71,6 +71,11 @@ const JokesRoute = () => {
                 </li>
               ))}
             </ul>
+            <p className='py-2'>
+              <Link target='_blank' reloadDocument to='/jokes.rss'>
+                Rss Feed
+              </Link>
+            </p>
             <Link prefetch='intent' to='new' className='button'>
               Add your own
             </Link>

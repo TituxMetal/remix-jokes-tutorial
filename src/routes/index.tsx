@@ -26,6 +26,11 @@ const IndexRoute = () => {
                 Read Jokes
               </Link>
             </li>
+            <li>
+              <Link target='_blank' reloadDocument to='/jokes.rss'>
+                Rss Feed
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
