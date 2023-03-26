@@ -1,7 +1,14 @@
 import type { LoaderArgs } from '@remix-run/node'
 import { type ActionArgs, redirect, Response, json } from '@remix-run/node'
-import { Form, Link, useActionData, useCatch } from '@remix-run/react'
+import {
+  Form,
+  Link,
+  useActionData,
+  useCatch,
+  useNavigation
+} from '@remix-run/react'
 
+import { JokeDisplay } from '~/component'
 import { prisma } from '~/lib'
 import { badRequest, getUserId, requireUserId } from '~/utils'
 
@@ -65,6 +72,27 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 const NewJokeRoute = () => {
   const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+
+  if (navigation.formData) {
+    const name = navigation.formData.get('name')
+    const content = navigation.formData.get('content')
+
+    if (
+      typeof name === 'string' &&
+      typeof content === 'string' &&
+      !validateJokeContent(content) &&
+      !validatJokeName(name)
+    ) {
+      return (
+        <JokeDisplay
+          joke={{ name, content }}
+          isOwner={true}
+          canDelete={false}
+        />
+      )
+    }
+  }
 
   return (
     <div>
