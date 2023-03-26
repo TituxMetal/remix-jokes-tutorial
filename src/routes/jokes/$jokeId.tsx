@@ -2,13 +2,7 @@ import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Response } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import {
-  Form,
-  Link,
-  useCatch,
-  useLoaderData,
-  useParams
-} from '@remix-run/react'
+import { useCatch, useLoaderData, useParams } from '@remix-run/react'
 
 import { JokeDisplay } from '~/component'
 import { prisma } from '~/lib'
