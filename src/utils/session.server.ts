@@ -1,4 +1,3 @@
-import type { Request } from '@remix-run/node'
 import { createCookieSessionStorage, redirect } from '@remix-run/node'
 import * as argon from 'argon2'
 
