@@ -10,6 +10,7 @@ import {
   useParams
 } from '@remix-run/react'
 
+import { JokeDisplay } from '~/component'
 import { prisma } from '~/lib'
 import { getUserId, requireUserId } from '~/utils'
 
@@ -66,22 +67,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 const JokeRoute = () => {
   const { joke, isOwner } = useLoaderData<typeof loader>()
 
-  return (
-    <div>
-      <p>Here's your hilarious joke:</p>
-      <p>{joke.content}</p>
-      <Link prefetch='intent' to='.'>
-        {joke.name} Permalink
-      </Link>
-      {isOwner && (
-        <Form method='post'>
-          <button type='submit' className='button' name='intent' value='delete'>
-            Delete
-          </button>
-        </Form>
-      )}
-    </div>
-  )
+  return <JokeDisplay isOwner={isOwner} joke={joke} />
 }
 
 export const CatchBoundary = () => {
