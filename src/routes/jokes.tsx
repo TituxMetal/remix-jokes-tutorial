@@ -29,7 +29,12 @@ const JokesRoute = () => {
       <header className='jokes-header'>
         <div className='container'>
           <h1 className='home-link'>
-            <Link to='/' title='Remix Jokes' aria-label='Remix Jokes'>
+            <Link
+              prefetch='intent'
+              to='/'
+              title='Remix Jokes'
+              aria-label='Remix Jokes'
+            >
               <span className='logo'>🤪</span>
               <span className='logo-medium'>J🤪KES</span>
             </Link>
@@ -44,7 +49,7 @@ const JokesRoute = () => {
               </Form>
             </div>
           ) : (
-            <Link to='/login' className='button'>
+            <Link prefetch='intent' to='/login' className='button'>
               Login
             </Link>
           )}
@@ -53,16 +58,20 @@ const JokesRoute = () => {
       <main className='jokes-main'>
         <div className='container'>
           <div className='jokes-list'>
-            <Link to='.'>Get a random joke</Link>
+            <Link prefetch='intent' to='.'>
+              Get a random joke
+            </Link>
             <p>Here are a few more jokes to check out:</p>
             <ul>
               {jokeListItems.map(joke => (
                 <li key={joke.id}>
-                  <Link to={joke.id}>{joke.name}</Link>
+                  <Link prefetch='intent' to={joke.id}>
+                    {joke.name}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <Link to='new' className='button'>
+            <Link prefetch='intent' to='new' className='button'>
               Add your own
             </Link>
           </div>

@@ -35,7 +35,7 @@ export const action = async ({ params, request }: ActionArgs) => {
 
   await prisma.joke.delete({ where: { id: params.jokeId } })
 
-  redirect('/jokes')
+  return redirect('/jokes')
 }
 
 export const loader = async ({ params, request }: LoaderArgs) => {
@@ -70,7 +70,9 @@ const JokeRoute = () => {
     <div>
       <p>Here's your hilarious joke:</p>
       <p>{joke.content}</p>
-      <Link to='.'>{joke.name} Permalink</Link>
+      <Link prefetch='intent' to='.'>
+        {joke.name} Permalink
+      </Link>
       {isOwner && (
         <Form method='post'>
           <button type='submit' className='button' name='intent' value='delete'>

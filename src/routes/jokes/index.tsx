@@ -25,7 +25,9 @@ const JokesIndexRoute = () => {
     <div>
       <p>Here's a random joke:</p>
       <p>{randomJoke.content}</p>
-      <Link to={randomJoke.id}>"{randomJoke.name}" Permalink</Link>
+      <Link prefetch='intent' to={randomJoke.id}>
+        "{randomJoke.name}" Permalink
+      </Link>
     </div>
   )
 }
