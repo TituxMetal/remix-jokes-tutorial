@@ -41,7 +41,8 @@ export const action = async ({ request }: ActionArgs) => {
   const loginType = form.get('loginType')
   const username = form.get('username')
   const password = form.get('password')
-  const redirectTo = validateUrl(form.get('redirectTo') || '/jokes')
+  const url = (form.get('redirectTo') as string) || '/jokes'
+  const redirectTo = validateUrl(url)
 
   if (
     typeof loginType !== 'string' ||
