@@ -1,5 +1,5 @@
-import type { LoaderArgs } from '@remix-run/node'
-import { type ActionArgs, redirect, Response, json } from '@remix-run/node'
+import type { ActionArgs, LoaderArgs } from '@remix-run/node'
+import { redirect, Response, json } from '@remix-run/node'
 import {
   Form,
   Link,
