@@ -5,36 +5,38 @@
     "build": "remix build",
     "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
-    "start": "remix-serve build",
+    "start": "remix-serve build/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@prisma/client": "4.11.0",
-    "@remix-run/node": "1.14.3",
-    "@remix-run/react": "1.14.3",
-    "@remix-run/serve": "1.14.3",
+    "@prisma/client": "5.7.1",
+    "@remix-run/node": "^2.4.1",
+    "@remix-run/react": "^2.4.1",
+    "@remix-run/serve": "^2.4.1",
+    "@remix-run/server-runtime": "^2.4.1",
     "@slicknode/stylemapper": "0.1.5",
-    "argon2": "0.30.3",
-    "isbot": "3.6.7",
+    "argon2": "0.31.2",
+    "isbot": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "1.14.3",
-    "@remix-run/eslint-config": "1.14.3",
-    "@types/react": "18.0.28",
-    "@types/react-dom": "18.0.11",
-    "esbuild-register": "3.4.2",
-    "eslint": "8.36.0",
-    "eslint-config-prettier": "8.8.0",
-    "prettier": "2.8.6",
-    "prettier-plugin-tailwindcss": "0.2.5",
-    "prisma": "4.11.0",
-    "tailwindcss": "3.2.7",
-    "typescript": "5.0.2"
+    "@remix-run/dev": "2.4.1",
+    "@remix-run/eslint-config": "2.4.1",
+    "@types/react": "18.2.45",
+    "@types/react-dom": "18.2.18",
+    "esbuild-register": "3.5.0",
+    "eslint": "8.56.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.1.1",
+    "prettier-plugin-tailwindcss": "0.5.9",
+    "prisma": "5.7.1",
+    "remix-flat-routes": "^0.6.4",
+    "tailwindcss": "3.4.0",
+    "typescript": "5.2.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": "20"
   },
   "prisma": {
     "seed": "node --require esbuild-register prisma/seed.ts"
