@@ -11,6 +11,22 @@ const getJokes = () => {
       content: `I never wanted to believe that my Dad was stealing from his job as a road worker. But when I got home, all the signs were there.`
     },
     {
+      name: 'Job',
+      content: `Why did the programmer quit his job? Because he didn't get arrays.`
+    },
+    {
+      name: 'Nature',
+      content: `Why don't programmers like nature? It has too many bugs.`
+    },
+    {
+      name: 'Dark Mode',
+      content: `Why did programmers prefer dark mode? Because light attracts bugs.`
+    },
+    {
+      name: 'Android Vs iOS',
+      content: `Why do programmers prefer iOS development over Android development? Because on iOS, there are no Java exceptions.`
+    },
+    {
       name: 'Frisbee',
       content: `I was wondering why the frisbee was getting bigger, then it hit me.`
     },
