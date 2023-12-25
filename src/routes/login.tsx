@@ -1,4 +1,8 @@
-import type { ActionArgs, LinksFunction, MetaFunction } from '@remix-run/node'
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  MetaFunction
+} from '@remix-run/node'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 
 import { prisma } from '~/lib'
@@ -9,10 +13,13 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl }
 ]
 
-export const meta: MetaFunction = () => ({
-  description: `Login to submit your own jokes to Remix Jokes!`,
-  title: `Remix Jokes | Login`
-})
+export const meta: MetaFunction = () => [
+  {
+    name: 'description',
+    content: `Login to submit your own jokes to Remix Jokes!`
+  },
+  { title: `Remix Jokes | Login` }
+]
 
 const validateUsername = (username: string) => {
   if (typeof username !== 'string' || username.length < 3) {
@@ -36,7 +43,7 @@ const validateUrl = (url: string) => {
   return '/jokes'
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData()
   const loginType = form.get('loginType')
   const username = form.get('username')

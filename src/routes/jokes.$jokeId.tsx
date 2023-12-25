@@ -1,14 +1,21 @@
-import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
-import { Response } from '@remix-run/node'
-import { json } from '@remix-run/node'
-import { useCatch, useLoaderData, useParams } from '@remix-run/react'
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction
+} from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useParams,
+  useRouteError
+} from '@remix-run/react'
 
 import { JokeDisplay } from '~/component'
 import { prisma } from '~/lib'
 import { getUserId, requireUserId } from '~/utils'
 
-export const action = async ({ params, request }: ActionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData()
 
   if (form.get('intent') !== 'delete') {
@@ -33,7 +40,7 @@ export const action = async ({ params, request }: ActionArgs) => {
   return redirect('/jokes')
 }
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request)
   const joke = await prisma.joke.findUnique({ where: { id: params.jokeId } })
 
@@ -46,16 +53,19 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
-    return {
-      description: 'No joke found',
-      title: 'No joke'
-    }
+    return [
+      { name: 'description', content: 'No joke found' },
+      { title: 'No joke' }
+    ]
   }
 
-  return {
-    description: `Enjoy the "${data.joke.name}" joke and much more`,
-    title: `"${data.joke.name}" joke`
-  }
+  return [
+    {
+      name: 'description',
+      content: `Enjoy the "${data.joke.name}" joke and much more`
+    },
+    { title: `"${data.joke.name}" joke` }
+  ]
 }
 
 const JokeRoute = () => {
@@ -64,40 +74,38 @@ const JokeRoute = () => {
   return <JokeDisplay isOwner={isOwner} joke={joke} />
 }
 
-export const CatchBoundary = () => {
-  const caught = useCatch()
-  const params = useParams()
-
-  switch (caught.status) {
-    case 400: {
-      return (
-        <div className='error-container'>
-          What you're trying to do is not allowed!
-        </div>
-      )
-    }
-    case 403: {
-      return (
-        <div className='error-container'>
-          Sorry, but "{params.jokeId}" is not your joke.
-        </div>
-      )
-    }
-    case 404: {
-      return (
-        <div className='error-container'>
-          Huh? What the heck is "{params.jokeId}"
-        </div>
-      )
-    }
-    default: {
-      throw new Error(`Unhandled error: ${caught.status}`)
-    }
-  }
-}
-
 export const ErrorBoundary = () => {
   const { jokeId } = useParams()
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    switch (error.status) {
+      case 400: {
+        return (
+          <div className='error-container'>
+            What you're trying to do is not allowed!
+          </div>
+        )
+      }
+      case 403: {
+        return (
+          <div className='error-container'>
+            Sorry, but "{jokeId}" is not your joke.
+          </div>
+        )
+      }
+      case 404: {
+        return (
+          <div className='error-container'>
+            Huh? What the heck is "{jokeId}"
+          </div>
+        )
+      }
+      default: {
+        throw new Error(`Unhandled error: ${error.status}`)
+      }
+    }
+  }
 
   return (
     <div className='error-container'>

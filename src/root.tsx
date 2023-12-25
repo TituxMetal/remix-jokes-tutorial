@@ -6,7 +6,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch
+  isRouteErrorResponse,
+  useRouteError
 } from '@remix-run/react'
 import type { ReactNode } from 'react'
 
@@ -41,19 +42,24 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => {
   const description = `Learn Remix and laugh at the same time!`
 
-  return {
-    charset: 'utf-8',
-    description,
-    keywords: 'Remix,jokes',
-    'twitter:image':
-      'https://remix-jokes-tutorial-omega.vercel.app//social.png',
-    'twitter:card': 'summary_large_image',
-    'twitter:creator': '@lgdweb',
-    'twitter:site': 'https://remix-jokes-tutorial-omega.vercel.app',
-    'twitter:title': 'Remix Jokes',
-    'twitter:description': description,
-    viewport: 'width=device-width,initial-scale=1'
-  }
+  return [
+    { name: 'charset', content: 'utf-8' },
+    { name: 'description', content: description },
+    { name: 'keywords', content: 'Remix,jokes' },
+    {
+      name: 'twitter:image',
+      content: 'https://remix-jokes-tutorial-omega.vercel.app//social.png'
+    },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:creator', content: '@lgdweb' },
+    {
+      name: 'twitter:site',
+      content: 'https://remix-jokes-tutorial-omega.vercel.app'
+    },
+    { name: 'twitter:title', content: 'Remix Jokes' },
+    { name: 'twitter:description', content: description },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' }
+  ]
 }
 
 const Document = ({
@@ -72,6 +78,8 @@ const Document = ({
       </head>
       <body>
         {children}
+        <Scripts />
+        <ScrollRestoration />
         <LiveReload />
       </body>
     </html>
@@ -82,33 +90,33 @@ const App = () => {
   return (
     <Document>
       <Outlet />
-      <ScrollRestoration />
-      <Scripts />
     </Document>
   )
 }
 
-export const CatchBoundary = () => {
-  const caught = useCatch()
+export const ErrorBoundary = () => {
+  const error = useRouteError()
 
-  return (
-    <Document title={`${caught.status} ${caught.statusText}`}>
-      <div className='error-container'>
-        <h1>
-          {caught.status} {caught.statusText}
-        </h1>
-        <p>Somethings went wrong!</p>
-      </div>
-    </Document>
-  )
-}
+  if (isRouteErrorResponse(error)) {
+    return (
+      <Document title={`${error.status} ${error.statusText}`}>
+        <div className='error-container'>
+          <h1>
+            {error.status} {error.statusText}
+          </h1>
+          <p>Somethings went wrong!</p>
+        </div>
+      </Document>
+    )
+  }
 
-export const ErrorBoundary = ({ error }: { error: Error }) => {
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
   return (
     <Document title='Uh-oh!'>
       <div className='error-container'>
         <h1>App Error</h1>
-        <pre>{error.message}</pre>
+        <pre>{errorMessage}</pre>
       </div>
     </Document>
   )

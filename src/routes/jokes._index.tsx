@@ -1,5 +1,10 @@
-import { Response, json } from '@remix-run/node'
-import { Link, useCatch, useLoaderData } from '@remix-run/react'
+import { json } from '@remix-run/node'
+import {
+  Link,
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError
+} from '@remix-run/react'
 
 import { prisma } from '~/lib'
 
@@ -32,17 +37,18 @@ const JokesIndexRoute = () => {
   )
 }
 
-export const CatchBoundary = () => {
-  const caught = useCatch()
+export const ErrorBoundary = () => {
+  const error = useRouteError()
 
-  if (caught.status === 404) {
-    return <div className='error-container'>There are no jokes to display.</div>
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return (
+      <div className='error-container'>
+        <p>There are no jokes to display.</p>
+        <Link to='new'>Create your own.</Link>
+      </div>
+    )
   }
 
-  throw new Error(`Unexpected caught response with status: ${caught.status}`)
-}
-
-export const ErrorBoundary = () => {
   return <div className='error-container'>I did a whoopsies!</div>
 }
 

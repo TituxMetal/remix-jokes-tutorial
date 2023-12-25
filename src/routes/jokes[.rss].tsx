@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 
 import { prisma } from '~/lib'
 
@@ -15,7 +15,7 @@ const escapeHtml = (string: string) => {
     .replace(/'/g, '&#039;')
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokes = await prisma.joke.findMany({
     take: 100,
     orderBy: { createdAt: 'desc' },

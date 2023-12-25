@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs } from '@remix-run/node'
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, Link, Outlet, useLoaderData } from '@remix-run/react'
 
@@ -10,7 +10,7 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }]
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokes = await prisma.joke.findMany({
     take: 5,
     orderBy: { createdAt: 'desc' },

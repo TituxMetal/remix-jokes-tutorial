@@ -1,11 +1,12 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node'
-import { redirect, Response, json } from '@remix-run/node'
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import {
   Form,
   Link,
+  isRouteErrorResponse,
   useActionData,
-  useCatch,
-  useNavigation
+  useNavigation,
+  useRouteError
 } from '@remix-run/react'
 
 import { JokeDisplay } from '~/component'
@@ -24,7 +25,7 @@ const validatJokeName = (name: string) => {
   }
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request)
   const form = await request.formData()
   const name = form.get('name')
@@ -60,7 +61,7 @@ export const action = async ({ request }: ActionArgs) => {
   return redirect(`/jokes/${joke.id}`)
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request)
 
   if (!userId) {
@@ -156,10 +157,10 @@ const NewJokeRoute = () => {
   )
 }
 
-export const CatchBoundary = () => {
-  const caught = useCatch()
+export const ErrorBoundary = () => {
+  const error = useRouteError()
 
-  if (caught.status === 401) {
+  if (isRouteErrorResponse(error) && error.status === 401) {
     return (
       <div className='error-container'>
         <p>You must be logged in to create a joke.</p>
@@ -167,9 +168,7 @@ export const CatchBoundary = () => {
       </div>
     )
   }
-}
 
-export const ErrorBoundary = () => {
   return (
     <div className='error-container'>
       Something unexpected went wrong. Sorry about that!

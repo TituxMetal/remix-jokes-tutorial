@@ -7,10 +7,10 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }]
 }
 
-export const meta: MetaFunction = () => ({
-  title: `Remix: so great, it's fun!`,
-  description: `Learn Remix and laugh at the same time!`
-})
+export const meta: MetaFunction = () => [
+  { title: `Remix: so great, it's fun!` },
+  { name: 'description', content: `Learn Remix and laugh at the same time!` }
+]
 
 const IndexRoute = () => {
   return (
