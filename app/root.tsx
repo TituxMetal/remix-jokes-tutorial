@@ -1,4 +1,5 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import { cssBundleHref } from '@remix-run/css-bundle'
+import { type LinksFunction, type MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -9,7 +10,7 @@ import {
   isRouteErrorResponse,
   useRouteError
 } from '@remix-run/react'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 import globalLargeStylesUrl from '~/styles/global-large.css'
 import globalMediumStylesUrl from '~/styles/global-medium.css'
@@ -35,7 +36,8 @@ export const links: LinksFunction = () => {
       rel: 'stylesheet',
       href: globalLargeStylesUrl,
       media: 'screen and (min-width: 1024px)'
-    }
+    },
+    ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])
   ]
 }
 

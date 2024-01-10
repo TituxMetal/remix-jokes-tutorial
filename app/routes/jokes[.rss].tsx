@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import { type LoaderFunctionArgs } from '@remix-run/node'
 
 import { prisma } from '~/lib'
 
@@ -22,8 +22,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     include: { jokester: { select: { username: true } } }
   })
 
-  const host =
-    request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
+  const host = request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
   if (!host) {
     throw new Error('Could not determine domain URL.')
   }
@@ -45,12 +44,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
             `
             <item>
               <title><![CDATA[${escapeCdata(joke.name)}]]></title>
-              <description><![CDATA[A funny joke called ${escapeHtml(
-                joke.name
-              )}]]></description>
-              <author><![CDATA[${escapeCdata(
-                joke.jokester.username
-              )}]]></author>
+              <description><![CDATA[A funny joke called ${escapeHtml(joke.name)}]]></description>
+              <author><![CDATA[${escapeCdata(joke.jokester.username)}]]></author>
               <pubDate>${joke.createdAt.toUTCString()}</pubDate>
               <link>${jokesUrl}/${joke.id}</link>
               <guid>${jokesUrl}/${joke.id}</guid>

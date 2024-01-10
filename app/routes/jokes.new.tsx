@@ -1,5 +1,4 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import { json, redirect } from '@remix-run/node'
+import { json, redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node'
 import {
   Form,
   Link,
@@ -85,13 +84,7 @@ const NewJokeRoute = () => {
       !validateJokeContent(content) &&
       !validatJokeName(name)
     ) {
-      return (
-        <JokeDisplay
-          joke={{ name, content }}
-          isOwner={true}
-          canDelete={false}
-        />
-      )
+      return <JokeDisplay joke={{ name, content }} isOwner={true} canDelete={false} />
     }
   }
 
@@ -107,9 +100,7 @@ const NewJokeRoute = () => {
               defaultValue={actionData?.fields?.name}
               name='name'
               aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
-              aria-errormessage={
-                actionData?.fieldErrors?.name ? 'name-error' : undefined
-              }
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
@@ -124,20 +115,12 @@ const NewJokeRoute = () => {
             <textarea
               defaultValue={actionData?.fields?.content}
               name='content'
-              aria-invalid={
-                Boolean(actionData?.fieldErrors?.content) || undefined
-              }
-              aria-errormessage={
-                actionData?.fieldErrors?.content ? 'content-error' : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content) || undefined}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className='form-validation-error'
-              role='alert'
-              id='content-error'
-            >
+            <p className='form-validation-error' role='alert' id='content-error'>
               {actionData.fieldErrors.content}
             </p>
           ) : null}
@@ -169,11 +152,7 @@ export const ErrorBoundary = () => {
     )
   }
 
-  return (
-    <div className='error-container'>
-      Something unexpected went wrong. Sorry about that!
-    </div>
-  )
+  return <div className='error-container'>Something unexpected went wrong. Sorry about that!</div>
 }
 
 export default NewJokeRoute

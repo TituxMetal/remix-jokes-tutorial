@@ -1,6 +1,6 @@
-import type { Joke } from '@prisma/client'
+import { type Joke } from '@prisma/client'
 import { Form, Link } from '@remix-run/react'
-import type { FC } from 'react'
+import { type FC } from 'react'
 
 interface JokeDisplayProps {
   isOwner: boolean
@@ -8,11 +8,7 @@ interface JokeDisplayProps {
   canDelete?: boolean
 }
 
-const JokeDisplay: FC<JokeDisplayProps> = ({
-  isOwner,
-  joke,
-  canDelete = true
-}) => {
+const JokeDisplay: FC<JokeDisplayProps> = ({ isOwner, joke, canDelete = true }) => {
   return (
     <div>
       <p>Here's your hilarious joke:</p>

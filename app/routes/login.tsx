@@ -1,17 +1,11 @@
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  MetaFunction
-} from '@remix-run/node'
+import { type ActionFunctionArgs, type LinksFunction, type MetaFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 
 import { prisma } from '~/lib'
 import stylesUrl from '~/styles/login.css'
 import { badRequest, createUserSession, login, register } from '~/utils'
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesUrl }
-]
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }]
 
 export const meta: MetaFunction = () => [
   {
@@ -143,8 +137,7 @@ const LoginRoute = () => {
                 name='loginType'
                 value='login'
                 defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData?.fields?.loginType === 'login'
+                  !actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'
                 }
               />{' '}
               Login
@@ -167,16 +160,10 @@ const LoginRoute = () => {
               name='username'
               defaultValue={actionData?.fields?.username}
               aria-invalid={Boolean(actionData?.fieldErrors?.username)}
-              aria-errormessage={
-                actionData?.fieldErrors?.username ? 'username-error' : undefined
-              }
+              aria-errormessage={actionData?.fieldErrors?.username ? 'username-error' : undefined}
             />
             {actionData?.fieldErrors?.username ? (
-              <p
-                className='form-validation-error'
-                role='alert'
-                id='username-error'
-              >
+              <p className='form-validation-error' role='alert' id='username-error'>
                 {actionData.fieldErrors.username}
               </p>
             ) : null}
@@ -190,16 +177,10 @@ const LoginRoute = () => {
               name='password'
               defaultValue={actionData?.fields?.password}
               aria-invalid={Boolean(actionData?.fieldErrors?.password)}
-              aria-errormessage={
-                actionData?.fieldErrors?.password ? 'password-error' : undefined
-              }
+              aria-errormessage={actionData?.fieldErrors?.password ? 'password-error' : undefined}
             />
             {actionData?.fieldErrors?.password ? (
-              <p
-                className='form-validation-error'
-                role='alert'
-                id='password-error'
-              >
+              <p className='form-validation-error' role='alert' id='password-error'>
                 {actionData.fieldErrors.password}
               </p>
             ) : null}

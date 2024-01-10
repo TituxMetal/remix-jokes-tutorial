@@ -1,10 +1,5 @@
 import { json } from '@remix-run/node'
-import {
-  Link,
-  isRouteErrorResponse,
-  useLoaderData,
-  useRouteError
-} from '@remix-run/react'
+import { Link, isRouteErrorResponse, useLoaderData, useRouteError } from '@remix-run/react'
 
 import { prisma } from '~/lib'
 

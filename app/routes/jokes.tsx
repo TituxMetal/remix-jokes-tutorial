@@ -1,5 +1,4 @@
-import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { json } from '@remix-run/node'
+import { json, type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node'
 import { Form, Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import { prisma } from '~/lib'
@@ -29,12 +28,7 @@ const JokesRoute = () => {
       <header className='jokes-header'>
         <div className='container'>
           <h1 className='home-link'>
-            <Link
-              prefetch='intent'
-              to='/'
-              title='Remix Jokes'
-              aria-label='Remix Jokes'
-            >
+            <Link prefetch='intent' to='/' title='Remix Jokes' aria-label='Remix Jokes'>
               <span className='logo'>🤪</span>
               <span className='logo-medium'>J🤪KES</span>
             </Link>

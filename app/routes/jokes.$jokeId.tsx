@@ -1,15 +1,11 @@
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction
-} from '@remix-run/node'
-import { json, redirect } from '@remix-run/node'
 import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useParams,
-  useRouteError
-} from '@remix-run/react'
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction
+} from '@remix-run/node'
+import { isRouteErrorResponse, useLoaderData, useParams, useRouteError } from '@remix-run/react'
 
 import { JokeDisplay } from '~/component'
 import { prisma } from '~/lib'
@@ -53,10 +49,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
-    return [
-      { name: 'description', content: 'No joke found' },
-      { title: 'No joke' }
-    ]
+    return [{ name: 'description', content: 'No joke found' }, { title: 'No joke' }]
   }
 
   return [
@@ -81,25 +74,13 @@ export const ErrorBoundary = () => {
   if (isRouteErrorResponse(error)) {
     switch (error.status) {
       case 400: {
-        return (
-          <div className='error-container'>
-            What you're trying to do is not allowed!
-          </div>
-        )
+        return <div className='error-container'>What you're trying to do is not allowed!</div>
       }
       case 403: {
-        return (
-          <div className='error-container'>
-            Sorry, but "{jokeId}" is not your joke.
-          </div>
-        )
+        return <div className='error-container'>Sorry, but "{jokeId}" is not your joke.</div>
       }
       case 404: {
-        return (
-          <div className='error-container'>
-            Huh? What the heck is "{jokeId}"
-          </div>
-        )
+        return <div className='error-container'>Huh? What the heck is "{jokeId}"</div>
       }
       default: {
         throw new Error(`Unhandled error: ${error.status}`)

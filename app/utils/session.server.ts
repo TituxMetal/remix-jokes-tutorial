@@ -52,8 +52,7 @@ export const register = async ({ username, password }: LoginForm) => {
   return { id: user.id, username: user.username }
 }
 
-const getUserSession = async (request: Request) =>
-  storage.getSession(request.headers.get('Cookie'))
+const getUserSession = async (request: Request) => storage.getSession(request.headers.get('Cookie'))
 
 export const getUserId = async (request: Request) => {
   const session = await getUserSession(request)

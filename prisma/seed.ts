@@ -54,14 +54,10 @@ const getJokes = () => {
 }
 
 const resetJokesDb = async () =>
-  db.joke
-    .deleteMany()
-    .then(({ count }) => console.log(`succefully deleted jokes: ${count}`))
+  db.joke.deleteMany().then(({ count }) => console.log(`succefully deleted jokes: ${count}`))
 
 const resetUserDb = async () =>
-  db.user
-    .deleteMany()
-    .then(({ count }) => console.log(`succefully deleted users: ${count}`))
+  db.user.deleteMany().then(({ count }) => console.log(`succefully deleted users: ${count}`))
 
 const seed = async () => {
   await Promise.all([resetJokesDb(), resetUserDb()])
