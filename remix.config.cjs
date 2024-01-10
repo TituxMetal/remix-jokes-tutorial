@@ -4,11 +4,12 @@ const { flatRoutes } = require('remix-flat-routes')
 module.exports = {
   cacheDirectory: './node_modules/.cache/remix',
   ignoredRouteFiles: ['**/.*'],
-  appDirectory: 'src',
-  serverModuleFormat: 'cjs',
+  appDirectory: 'app',
+  serverModuleFormat: 'esm',
   tailwind: true,
   postcss: true,
+  watchPaths: ['./tailwind.config.ts'],
   routes: async defineRoutes => {
-    return flatRoutes('routes', defineRoutes, { appDir: 'src' })
+    return flatRoutes('routes', defineRoutes, { appDir: 'app' })
   }
 }
